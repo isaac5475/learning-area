@@ -44,6 +44,19 @@ function random(min, max) {
     this.y += this.velY;
 
   }
+  Ball.prototype.collisionDetect = function() {
+    for (let j = 0; j < Balls.length; j++) {
+      if (!(this === Balls[j])) {
+        const dx = this.x - Balls[j].x;
+        const dy = this.y - Balls[j].y;
+        const dist = Math.sqrt(dx ** 2 + dy ** 2);
+        
+        if (dist < this.size + Balls[j].size) {
+          Balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';         
+        } 
+      }
+    }
+  }
 
   let Balls = [];
   while (Balls.length < 25) {
@@ -65,6 +78,7 @@ function random(min, max) {
     for (let i = 0; i < Balls.length; i++) {
       Balls[i].draw();
       Balls[i].update();
+      Balls[i].collisionDetect();
     }
   requestAnimationFrame(loop);
 
